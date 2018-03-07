@@ -10,9 +10,13 @@ stuNumLn = 1
 counter = 0
 #keeps track of the amount of passes per class
 passes = 0
+fails = 0
 #saves the weights to use in the mark
 weights = 0
-
+#sets num of students for calculating average
+numOfStu = 0
+#sets mark total for calculating average
+totalGrade = 0
 #go through each line of DATA10
 for line in data:
     #checks if this is a weight line
@@ -20,13 +24,16 @@ for line in data:
         #sets the weights
         weights = line.split()
         #prints the ammount of passes
-        if passes != 0: print(passes)
+        if passes != 0: print("P: " + str(passes) + " F: " + str(fails) + " AVG%: " + str(totalGrade/numOfStu))
         #resets passes variable
         passes = 0
+        #resets grade total
+        totalGrade = 0
     #checks if its a class size line
     elif len(line.split()) == 1:
         #sets the next weights line
         weightsLn += int(line)+2
+        numOfStu = int(line)
     #checks if its a line with marks
     else:
         #sets the final grade variable
@@ -37,9 +44,12 @@ for line in data:
             final += int(weight)*int(mark)/100
         #checks if current student passed
         if final > 50: passes += 1
+        if final < 50: fails += 1
+        totalGrade += final
     #adds one to the counter
     counter += 1
-print(passes)
+#prints the passes and fails of the last class
+print("P: " + str(passes) + " F: " + str(fails) + " AVG%: " + str(totalGrade/numOfStu))
 #closes the file
 inputFile.close
     
